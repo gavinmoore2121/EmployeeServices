@@ -1,9 +1,10 @@
 package employee.functions;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.InputMismatchException;
-import java.util.Scanner;
 
 import org.apache.log4j.*;
 
@@ -18,6 +19,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 		log = Logger.getLogger(EmployeeServiceImpl.class.getName());
 		log.setLevel(Level.ALL);
 		BasicConfigurator.configure();
+		
+		// Delete any employees currently stored (to facilitate resets in testing).
+		employeeList.clear();
+		
+		// Insert several sample employees.
 		employeeList.add(new Employee(1, "John Doe", 50000.0, new Address("100 New York Ave", "New York")));
 		employeeList.add(new Employee(2, "Jane Smith", 60000.0, new Address("101 New York Ave", "New York")));
 		employeeList.add(new Employee(3, "Ed Johns", 70000.0, new Address("102 New York Ave", "New York")));
@@ -48,7 +54,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public Employee findByEmployeeNo(int empNo) {
 		Employee foundEmployee = null;
 		for (Employee e: employeeList) if (e.getEmpNo() == empNo) foundEmployee = e;
-		log.info("Employee with ID #" + empNo + "returned.");
+		log.info("Employee with ID #" + empNo + " returned.");
 		return foundEmployee;
 	}
 	
@@ -64,36 +70,36 @@ public class EmployeeServiceImpl implements EmployeeService {
 	 * Display a menu allowing the selection of a trait to modify. Once selected,
 	 * accept the new value and alter the Employee appropriately.
 	 */
-	public void updateEmployee(Employee e1, Scanner scnr) {
+	public void updateEmployee(Employee e1, BufferedReader reader) {
 		//TODO Consider separating this into separate methods.
 		System.out.println("Select the trait to alter.");
-		System.out.println("1: Employee number\n 2: Employee name"
+		System.out.println("1: Employee number \n2: Employee name"
 				+ "\n3: Employee address \n4: Employee address");
 		try {
-			int userInput = scnr.nextInt();
+			int userInput = Integer.parseInt(reader.readLine());
 		
 			switch (userInput) {
 			case 1: System.out.println("Enter new employee number.");
-			e1.setEmpNo(scnr.nextInt());
+			e1.setEmpNo(Integer.parseInt(reader.readLine()));
 			System.out.println("Employee number updated.");
 			log.info("Employee " + e1 + " has had their ID modified.");
 			break;
 			case 2: System.out.println("Enter new employee name.");
-			e1.setEmpName(scnr.nextLine());
+			e1.setEmpName(reader.readLine());
 			System.out.println("Employee name updated.");
 			log.info("Employee " + e1 + " has had their name modified.");
 			break;
-			case 3: scnr.nextLine();
+			case 3: reader.readLine();
 			System.out.println("Enter new employee city.");
-			String newCity = scnr.nextLine();
+			String newCity = reader.readLine();
 			System.out.println("Enter new employee state.");
-			String newState = scnr.nextLine();
+			String newState = reader.readLine();
 			e1.setAddress(new Address(newCity, newState));
 			System.out.println("Employee address updated.");
 			log.info("Employee " + e1 + " has had their address modified.");
 			break;
 			case 4: System.out.println("Enter new employee salary.");
-			e1.setSalary(scnr.nextDouble());
+			e1.setSalary(Double.parseDouble(reader.readLine()));
 			System.out.println("Employee salary updated.");
 			log.info("Employee " + e1 + " has had their salary modified.");
 			break;
@@ -104,6 +110,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 			}
 		}
 		catch (InputMismatchException e) {
+			log.error("Error in EmployeeService.updateEmployee: /n" + e);
+			System.out.println("Invalid input.");
+		}
+		catch (IOException e) {
 			log.error("Error in EmployeeService.updateEmployee: /n" + e);
 			System.out.println("Invalid input.");
 		}

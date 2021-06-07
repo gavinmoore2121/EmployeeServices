@@ -1,15 +1,15 @@
 package employee.functions;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class UseEmployee {
 
-	//TODO Correct Logger to enable saving to a file. 
-	//TODO Complete testing Class.
 	public static void main(String[] args) {
 		// Convert to Stream
 		EmployeeServiceImpl employeeService = new EmployeeServiceImpl();
-		Scanner scnr = new Scanner(System.in);
+		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		
 		
 		// Main loop: Output menu, read input, call appropriate method. Repeat until
@@ -17,14 +17,23 @@ public class UseEmployee {
 		int menuSelection = 0;
 		do {
 			printMenu();
-			menuSelection = scnr.nextInt();
+			
+			try {
+				menuSelection = Integer.parseInt(reader.readLine());
+			} catch (NumberFormatException e) {
+				System.out.println("Invalid menu selection.");
+				e.printStackTrace();
+			} catch (IOException e) {
+				System.out.println("Invalid menu selection.");
+				e.printStackTrace();
+			}
 			
 			switch (menuSelection) {
 			case 1: employeeService.displayAllEmployees(); break;
 			case 2: System.out.println("Yearly combined salary: " + employeeService.calculateYearlySalary()); break;
-			case 3: System.out.println(employeeService.findByEmployeeNo(requestAndReadEmployeeNum(scnr))); break;
-			case 4: employeeService.updateEmployee(employeeService.findByEmployeeNo(requestAndReadEmployeeNum(scnr)), scnr); break;
-			case 5: employeeService.deleteEmployee(employeeService.findByEmployeeNo(requestAndReadEmployeeNum(scnr)));
+			case 3: System.out.println(employeeService.findByEmployeeNo(requestAndReadEmployeeNum(reader))); break;
+			case 4: employeeService.updateEmployee(employeeService.findByEmployeeNo(requestAndReadEmployeeNum(reader)), reader); break;
+			case 5: employeeService.deleteEmployee(employeeService.findByEmployeeNo(requestAndReadEmployeeNum(reader)));
 			System.out.println("Employee deleted."); break;
 			case 6: break; //Ignore entry to exit program outside of switch.
 			default: System.out.println("Invalid entry.");
@@ -42,9 +51,19 @@ public class UseEmployee {
 		System.out.println("6: Exit program.");
 	}
 	
-	public static int requestAndReadEmployeeNum(Scanner scnr) {
+	public static int requestAndReadEmployeeNum(BufferedReader reader) {
 		System.out.println("Enter employee number.");
-		return scnr.nextInt();
+		try {
+			return Integer.parseInt(reader.readLine());
+		}
+		catch (NumberFormatException e) {
+			e.printStackTrace();
+			System.out.println("Invalid integer.");
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("Invalid integer.");
+		}
+		return -1;
 	}
 
 }
