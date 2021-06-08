@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import employee.exceptions.EmployeeNotFoundException;
+
 public class UseEmployee {
 
 	public static void main(String[] args) {
@@ -28,15 +30,20 @@ public class UseEmployee {
 				e.printStackTrace();
 			}
 			
-			switch (menuSelection) {
-			case 1: employeeService.displayAllEmployees(); break;
-			case 2: System.out.println("Yearly combined salary: " + employeeService.calculateYearlySalary()); break;
-			case 3: System.out.println(employeeService.findByEmployeeNo(requestAndReadEmployeeNum(reader))); break;
-			case 4: employeeService.updateEmployee(employeeService.findByEmployeeNo(requestAndReadEmployeeNum(reader)), reader); break;
-			case 5: employeeService.deleteEmployee(employeeService.findByEmployeeNo(requestAndReadEmployeeNum(reader)));
-			System.out.println("Employee deleted."); break;
-			case 6: break; //Ignore entry to exit program outside of switch.
-			default: System.out.println("Invalid entry.");
+			try {
+				switch (menuSelection) {
+				case 1: employeeService.displayAllEmployees(); break;
+				case 2: System.out.println("Yearly combined salary: " + employeeService.calculateYearlySalary()); break;
+				case 3: System.out.println(employeeService.findByEmployeeNo(requestAndReadEmployeeNum(reader))); break;
+				case 4: employeeService.updateEmployee(employeeService.findByEmployeeNo(requestAndReadEmployeeNum(reader)), reader); break;
+				case 5: employeeService.deleteEmployee(employeeService.findByEmployeeNo(requestAndReadEmployeeNum(reader)));
+				System.out.println("Employee deleted."); break;
+				case 6: break; //Ignore entry to exit program outside of switch.
+				default: System.out.println("Invalid entry.");
+				}
+			}
+			catch (EmployeeNotFoundException e) {
+				System.out.println(e);
 			}
 		} while (menuSelection != 6);
 	}

@@ -2,6 +2,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import employee.exceptions.EmployeeNotFoundException;
+import employee.functions.Address;
+import employee.functions.Employee;
 import employee.functions.EmployeeServiceImpl;
 
 public class EmployeeTests {
@@ -16,8 +19,12 @@ public class EmployeeTests {
 	
 	@Test
 	public void testModifyingEmployeeName() {
-		empServTest.findByEmployeeNo(1).setEmpName("Test");
-		Assert.assertEquals(empServTest.findByEmployeeNo(1).getEmpName(), "Test");
+		try {
+			empServTest.findByEmployeeNo(1).setEmpName("Test");
+			Assert.assertEquals(empServTest.findByEmployeeNo(1).getEmpName(), "Test");
+	
+		}
+		catch (EmployeeNotFoundException e) {}
 	}
 	
 	@Test
@@ -29,9 +36,26 @@ public class EmployeeTests {
 	
 	@Test
 	public void testDeletedEmployeeIsRemovedFromList() {
-		empServTest.deleteEmployee(empServTest.findByEmployeeNo(1));
-		Assert.assertNull(empServTest.findByEmployeeNo(1));
-		
+		try {
+			empServTest.deleteEmployee(empServTest.findByEmployeeNo(1));
+			Assert.assertNull(empServTest.findByEmployeeNo(1));
+		}
+		catch (EmployeeNotFoundException e) {}
+	}
+	
+	@Test
+	public void testSearchingNonExistingEmployeeThrowsException() {
+		Assert.assertThrows(EmployeeNotFoundException.class, 
+				() -> empServTest.findByEmployeeNo(-1));
+	}
+	
+	@Test
+	public void addedEmployeeCanBeFoundByEmpNo() {
+		Employee e = new Employee(5, "TEST EMPLOYEE", 0.0, new Address("TEST", "ADDRESS"));
+		empServTest.addNewEmployee(e);
+		try {
+			Assert.assertEquals(e, empServTest.findByEmployeeNo(5));
+		} catch (EmployeeNotFoundException e1) {}
 	}
 
 }

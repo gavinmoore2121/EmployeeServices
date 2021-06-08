@@ -1,0 +1,21 @@
+# Define root logger
+log4j.rootLogger=INFO, FILE
+
+# Define file appender
+log4j.appender.FILE=org.apache.log4j.FileAppender
+
+# Set file name
+log4j.appender.FILE.File=src/logs/log.out
+
+# Set immediate flush to true (default value)
+log4j.appender.FILE.ImmediateFlush=true
+
+# Set threshold to debug mode
+log4j.appender.FILE.Threshold=all
+
+# Set the append to false, so the file overwrites itself.
+log4j.appender.FILE.Append=false
+
+# Define the layout for the file appender
+log4j.appender.FILE.layout=org.apache.log4j.PatternLayout
+log4j.appender.FILE.layout.conversionPattern=%d %m%n

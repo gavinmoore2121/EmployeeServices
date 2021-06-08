@@ -8,17 +8,20 @@ import java.util.InputMismatchException;
 
 import org.apache.log4j.*;
 
+import employee.exceptions.EmployeeNotFoundException;
+
 public class EmployeeServiceImpl implements EmployeeService {
 	
 	// ArrayList to contain all Employees.
-	public static ArrayList<Employee> employeeList = new ArrayList<Employee>();
+	private static ArrayList<Employee> employeeList = new ArrayList<Employee>();
 	private Logger log; 
 	
 	public EmployeeServiceImpl() {
 		// Initialize and configure logger.
 		log = Logger.getLogger(EmployeeServiceImpl.class.getName());
 		log.setLevel(Level.ALL);
-		BasicConfigurator.configure();
+		PropertyConfigurator.configure("log4j.info");
+		
 		
 		// Delete any employees currently stored (to facilitate resets in testing).
 		employeeList.clear();
@@ -34,7 +37,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	 */
 	public void displayAllEmployees() {
 		sortEmployees();
-		for (Employee e: employeeList) System.out.println(e);
+		employeeList.stream().forEach(e -> System.out.println(e));
 		log.info("Employee list displayed");
 	}
 
@@ -51,10 +54,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 	/**
 	 * Find and return an Employee given their employee number.
 	 */
-	public Employee findByEmployeeNo(int empNo) {
+	public Employee findByEmployeeNo(int empNo) throws EmployeeNotFoundException {
 		Employee foundEmployee = null;
 		for (Employee e: employeeList) if (e.getEmpNo() == empNo) foundEmployee = e;
 		log.info("Employee with ID #" + empNo + " returned.");
+		if (foundEmployee == null) {
+			throw new EmployeeNotFoundException("Employee with ID #" + empNo + "not found.");
+		}
 		return foundEmployee;
 	}
 	
@@ -110,11 +116,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 			}
 		}
 		catch (InputMismatchException e) {
-			log.error("Error in EmployeeService.updateEmployee: /n" + e);
+			log.error("Error in EmployeeService.updateEmployee: " + e);
 			System.out.println("Invalid input.");
 		}
 		catch (IOException e) {
-			log.error("Error in EmployeeService.updateEmployee: /n" + e);
+			log.error("Error in EmployeeService.updateEmployee: " + e);
+			System.out.println("Invalid input.");
+		}
+		catch (NumberFormatException e) {
+			log.error("Error in EmployeeService.updateEmployee: " + e);
 			System.out.println("Invalid input.");
 		}
 
@@ -126,6 +136,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public void deleteEmployee(Employee e1) {
 		log.info("Employee " + e1 + " has been deleted.");
 		employeeList.remove(e1);
+	}
+	
+	/**
+	 * Add an employee to the employee list.
+	 * @param e1: The employee to add.
+	 */
+	public void addNewEmployee (Employee e1) {
+		//TODO: Add check and throw to prevent addition of an employee with
+		// a existing employee number.
+		employeeList.add(e1);
 	}
 
 }

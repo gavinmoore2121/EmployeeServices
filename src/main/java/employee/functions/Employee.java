@@ -1,10 +1,8 @@
 package employee.functions;
 
-public class Employee implements Comparable<Employee>{
+public class Employee extends Person implements Comparable<Employee>{
 	int empNo;
-	String empName;
 	double salary;
-	Address address;
 	
 	
 	
@@ -17,11 +15,9 @@ public class Employee implements Comparable<Employee>{
 	 * @param address: Employee's permanent address.
 	 */
 	public Employee(int empNo, String empName, double salary, Address address) {
-		super();
+		super(empName, address);
 		this.empNo = empNo;
-		this.empName = empName;
 		this.salary = salary;
-		this.address = address;
 	}
 	
 	/**
@@ -29,7 +25,7 @@ public class Employee implements Comparable<Employee>{
 	 */
 	@Override
 	public String toString() {
-		return empName + ", employee #" + empNo + ", home address = " + 
+		return name + ", employee #" + empNo + ", home address = " + 
 				address + ", yearly salary of " + salary;
 	}
 
@@ -53,21 +49,15 @@ public class Employee implements Comparable<Employee>{
 		this.empNo = empNo;
 	}
 	public String getEmpName() {
-		return empName;
+		return this.getName();
 	}
 	public void setEmpName(String empName) {
-		this.empName = empName;
+		this.name = empName;
 	}
 	public double getSalary() {
 		return salary;
 	}
 	public void setSalary(double salary) {
 		this.salary = salary;
-	}
-	public Address getAddress() {
-		return address;
-	}
-	public void setAddress(Address address) {
-		this.address = address;
 	}
 }
