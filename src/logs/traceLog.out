@@ -1,0 +1,26 @@
+2021-06-18 14:42:22,014 EmployeeServiceImpl instantiated.
+2021-06-18 14:42:22,014 EmployeeServiceImpl object retrieved.
+2021-06-18 14:42:22,015 All employees deleted.
+2021-06-18 14:42:22,016 Sample data added to list.
+2021-06-18 14:42:22,021 User attempted to add employee with ID 1, but that employee number is already in use.
+2021-06-18 14:42:22,023 EmployeeServiceImpl object retrieved.
+2021-06-18 14:42:22,023 All employees deleted.
+2021-06-18 14:42:22,023 Sample data added to list.
+2021-06-18 14:42:22,023 Employee with ID #1 requested and returned.
+2021-06-18 14:42:22,024 Employee John Doe, employee #1, home address = 100 New York Ave, New York, yearly salary of 50000.0 has been deleted.
+2021-06-18 14:42:22,025 EmployeeServiceImpl object retrieved.
+2021-06-18 14:42:22,025 All employees deleted.
+2021-06-18 14:42:22,025 Sample data added to list.
+2021-06-18 14:42:22,026 EmployeeServiceImpl object retrieved.
+2021-06-18 14:42:22,026 All employees deleted.
+2021-06-18 14:42:22,026 Sample data added to list.
+2021-06-18 14:42:22,026 Employee with ID #1 requested and returned.
+2021-06-18 14:42:22,026 Employee with ID #1 requested and returned.
+2021-06-18 14:42:22,026 EmployeeServiceImpl object retrieved.
+2021-06-18 14:42:22,026 All employees deleted.
+2021-06-18 14:42:22,026 Sample data added to list.
+2021-06-18 14:42:22,026 Employee with ID #5 requested and returned.
+2021-06-18 14:42:22,029 EmployeeServiceImpl object retrieved.
+2021-06-18 14:42:22,029 All employees deleted.
+2021-06-18 14:42:22,030 Sample data added to list.
+2021-06-18 14:42:22,030 Office yearly salary calculated: 180000.0

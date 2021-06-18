@@ -1,10 +1,17 @@
 package employee.functions;
 
 public class Employee extends Person implements Comparable<Employee>{
-	int empNo;
-	double salary;
+	private int empNo;
+	private double salary;
 	
-	
+	/**
+	 * Non-parameterized constructor and default values.
+	 */
+	public Employee() {
+		super();
+		this.empNo = -1;
+		this.salary = -1.0;
+	}
 	
 	/**
 	 * Standard parameterized constructor.
@@ -25,8 +32,8 @@ public class Employee extends Person implements Comparable<Employee>{
 	 */
 	@Override
 	public String toString() {
-		return name + ", employee #" + empNo + ", home address = " + 
-				address + ", yearly salary of " + salary;
+		return this.getName() + ", employee #" + empNo + ", home address = " + 
+				this.getAddress() + ", yearly salary of " + salary;
 	}
 
 	/**
@@ -52,7 +59,7 @@ public class Employee extends Person implements Comparable<Employee>{
 		return this.getName();
 	}
 	public void setEmpName(String empName) {
-		this.name = empName;
+		this.setName(empName);
 	}
 	public double getSalary() {
 		return salary;
